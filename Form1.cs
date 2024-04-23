@@ -15,9 +15,13 @@ namespace lab6
     {
         List<Emitter> emitters = new List<Emitter>();
         Emitter emitter; // добавим поле для эмиттера
-
-        GravityPoint point1; // добавил поле под первую точку
-        GravityPoint point2; // добавил поле под вторую точку
+        RepaintingPoint pointRed;
+        RepaintingPoint pointOrange;
+        RepaintingPoint pointYellow;
+        RepaintingPoint pointGreen;
+        RepaintingPoint pointBlue;
+        RepaintingPoint pointNavyBlue;
+        RepaintingPoint pointPurple;
 
         public Form1()
         {
@@ -30,6 +34,87 @@ namespace lab6
                 Width = picDisplay.Width,
                 GravitationY = 0.25f
             };
+
+            //расположим по кругу 
+            int centerX = picDisplay.Width / 2;
+            int centerY = picDisplay.Height / 2;
+            int radius = Math.Min(picDisplay.Width, picDisplay.Height) / 3;
+            int pointsCount = 7; // количество точек
+
+            for (int i = 0; i < pointsCount; i++)
+            {
+                double angle = 2 * Math.PI * i / pointsCount;
+                int x = (int)(centerX + radius * Math.Cos(angle));
+                int y = (int)(centerY + radius * Math.Sin(angle));
+
+                switch (i)
+                {
+                    case 0:
+                        pointRed = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.Red
+                        };
+                        break;
+                    case 1:
+                        pointOrange = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.Orange
+                        };
+                        break;
+                    case 2:
+                        pointYellow = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.Yellow
+                        };
+                        break;
+                    case 3:
+                        pointGreen = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.LawnGreen
+                        };
+                        break;
+                    case 4:
+                        pointBlue = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.Cyan
+                        };
+                        break;
+                    case 5:
+                        pointNavyBlue = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.MediumBlue
+                        };
+                        break;
+                    case 6:
+                        pointPurple = new RepaintingPoint
+                        {
+                            X = x,
+                            Y = y,
+                            RepaintTo = Color.BlueViolet
+                        };
+                        break;
+                }
+            }
+
+            emitter.impactPoints.Add(pointRed);
+            emitter.impactPoints.Add(pointOrange);
+            emitter.impactPoints.Add(pointYellow);
+            emitter.impactPoints.Add(pointGreen);
+            emitter.impactPoints.Add(pointBlue);
+            emitter.impactPoints.Add(pointNavyBlue);
+            emitter.impactPoints.Add(pointPurple);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -44,8 +129,7 @@ namespace lab6
 
             picDisplay.Invalidate();
         }
-        private int MousePositionX = 0;
-        private int MousePositionY = 0;
+        
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             foreach (var emitter in emitters)
@@ -54,25 +138,13 @@ namespace lab6
                 emitter.MousePositionY = e.Y;
             }
 
-            // а тут передаем положение мыши, в положение гравитона
-            //point2.X = e.X;
-           // point2.Y = e.Y;
+           
         }
 
         private void tbDirection_Scroll(object sender, EventArgs e)
         {
             emitter.Direction = tbDirection.Value;
             lblDirection.Text = $"{tbDirection.Value}°";
-        }
-
-        private void tbGraviton_Scroll(object sender, EventArgs e)
-        {
-            point1.Power = tbGraviton.Value;
-        }
-
-        private void tbGraviton2_Scroll(object sender, EventArgs e)
-        {
-            point2.Power = tbGraviton2.Value;
         }
     }
 }
