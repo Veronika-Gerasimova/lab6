@@ -44,6 +44,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Emitter.cs" />
@@ -55,7 +56,6 @@
     </Compile>
     <Compile Include="IImpactPoint.cs" />
     <Compile Include="Particle.cs" />
-    <Compile Include="ParticleColorful.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

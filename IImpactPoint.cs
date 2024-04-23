@@ -84,10 +84,15 @@ namespace lab6
             g.DrawString(text, font, new SolidBrush(Color.White), X, Y, stringFormat);
         }
     }
-
-    public class RepaintingPoint : IImpactPoint
+    public interface IRepaintable
     {
-        public Color RepaintTo;
+        Color RepaintTo { get; set; }
+        
+    }
+    public class RepaintingPoint : IImpactPoint, IRepaintable
+    {
+        public Color RepaintTo { get; set; }
+
         public int Diametr = 75;
         public override void ImpactParticle(Particle particle)
         {
