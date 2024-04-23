@@ -40,15 +40,7 @@ namespace lab6
             {
                 if (particle.Life <= 0) // если частицы умерла
                 {
-                    /* 
-                     * то проверяем надо ли создать частицу
-                     */
-                    if (particlesToCreate > 0)
-                    {
-                        /* у нас как сброс частицы равносилен созданию частицы */
-                        particlesToCreate -= 1; // поэтому уменьшаем счётчик созданных частиц на 1
-                        ResetParticle(particle);
-                    }
+                    ResetParticle(particle);
                 }
                 else
                 {
@@ -70,12 +62,23 @@ namespace lab6
                     particle.Y += particle.SpeedY; */
                 }
             }
-            while (particlesToCreate >= 1)
+            for (var i = 0; i < 10; ++i)
             {
-                particlesToCreate -= 1;
-                var particle = CreateParticle();
-                ResetParticle(particle);
-                particles.Add(particle);
+                if (particles.Count < 500)
+                {
+                    /* ну и тут чуток подкрутили */
+                    var particle = new ParticleColorful();
+                    particle.FromColor = Color.White;
+                    particle.ToColor = Color.FromArgb(0, Color.Black);
+
+                    ResetParticle(particle); // добавили вызов ResetParticle
+
+                    particles.Add(particle);
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
@@ -95,23 +98,18 @@ namespace lab6
         // добавил новый метод, виртуальным, чтобы переопределять можно было
         public virtual void ResetParticle(Particle particle)
         {
-            particle.Life = Particle.rand.Next(LifeMin, LifeMax);
+            particle.Life = 20 + Particle.rand.Next(100);
+            particle.X = MousePositionX;
+            particle.Y = MousePositionY;
 
-            particle.X = X;
-            particle.Y = Y;
-
-            var direction = Direction
-                + (double)Particle.rand.Next(Spreading)
-                - Spreading / 2;
-
-            var speed = Particle.rand.Next(SpeedMin, SpeedMax);
+            var direction = (double)Particle.rand.Next(360);
+            var speed = 1 + Particle.rand.Next(10);
 
             particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
 
-            particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
+            particle.Radius = 2 + Particle.rand.Next(10);
         }
-
         public virtual Particle CreateParticle()
         {
             var particle = new ParticleColorful();
