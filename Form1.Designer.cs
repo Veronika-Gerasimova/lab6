@@ -36,6 +36,7 @@
             this.TbPointY = new System.Windows.Forms.TrackBar();
             this.BtnReset = new System.Windows.Forms.Button();
             this.BtnSwitchPalette = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointY)).BeginInit();
@@ -130,6 +131,7 @@
         private System.Windows.Forms.TrackBar TbPointY;
         private System.Windows.Forms.Button BtnReset;
         private System.Windows.Forms.Button BtnSwitchPalette;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }
 

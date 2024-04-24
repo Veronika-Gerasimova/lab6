@@ -25,7 +25,7 @@ namespace lab6
         CounterPoint pointCounter;
         TrackBar tbPointX;
         TrackBar tbPointY;
-        TrackBar tbPointRadius;
+
         public Form1()
         {
             InitializeComponent();
@@ -253,6 +253,7 @@ namespace lab6
         private void BtnReset_Click(object sender, EventArgs e)
         {
             ResetImpactPoints();
+            ResetColor();
         }
 
         private void ResetImpactPoints()
@@ -306,27 +307,37 @@ namespace lab6
             tbPointY.Value = (int)pointRed.Y;
         }
 
+        private void ResetColor()
+        {
+            pointRed.RepaintTo = Color.Red;
+            pointOrange.RepaintTo = Color.Orange;
+            pointYellow.RepaintTo = Color.Yellow;
+            pointGreen.RepaintTo = Color.LawnGreen;
+            pointBlue.RepaintTo = Color.Cyan;
+            pointNavyBlue.RepaintTo = Color.MediumBlue;
+            pointPurple.RepaintTo = Color.BlueViolet;
+
+            // Обновляем отображение
+            picDisplay.Invalidate();
+        }
+
         private void BtnSwitchPalette_Click(object sender, EventArgs e)
         {
-            foreach (var point in emitter.impactPoints)
+            ColorDialog colorDialog = new ColorDialog();
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                if (point is IRepaintable repaintablePoint)
-                {
-                    // Переключаем цвета в цикле
-                    switch (repaintablePoint.RepaintTo.Name)
-                    {
-                        case "Red":
-                            repaintablePoint.RepaintTo = Color.Blue;
-                            break;
-                        case "Blue":
-                            repaintablePoint.RepaintTo = Color.Green;
-                            break;
-                        case "Green":
-                            repaintablePoint.RepaintTo = Color.Red;
-                            break;
-                            // Добавить остальные цвета, как нужно
-                    }
-                }
+                // Применяем новый цвет к кругам
+                pointRed.RepaintTo = colorDialog.Color;
+                pointOrange.RepaintTo = colorDialog.Color;
+                pointYellow.RepaintTo = colorDialog.Color;
+                pointGreen.RepaintTo = colorDialog.Color;
+                pointBlue.RepaintTo = colorDialog.Color;
+                pointNavyBlue.RepaintTo = colorDialog.Color;
+                pointPurple.RepaintTo = colorDialog.Color;
+
+                // Обновляем отображение
+                picDisplay.Invalidate();
             }
         }
 
