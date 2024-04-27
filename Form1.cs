@@ -26,12 +26,14 @@ namespace lab6
         TrackBar tbPointX;
         TrackBar tbPointY;
         private int initialRadius = 75;
+        private int initialDirection = 90;
+
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            picDisplay.MouseWheel += picDisplay_MouseWheel;
-
+            
+            this.initialDirection = 90;
             /*emitter = new TopEmitter
              {
                  Width = picDisplay.Width,
@@ -208,7 +210,7 @@ namespace lab6
 
             tbDirection.Scroll += tbDirection_Scroll;
         }
-
+        //Обновление состояния эмиттера и отрисовки частиц
         private void timer1_Tick(object sender, EventArgs e)
         {
             emitter.UpdateState(); // тут теперь обновляем эмиттер
@@ -221,7 +223,7 @@ namespace lab6
 
             picDisplay.Invalidate();
         }
-
+        //Обработка движения мыши по PictureBox
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             foreach (var emitter in emitters)
@@ -229,22 +231,9 @@ namespace lab6
                 emitter.MousePositionX = e.X;
                 emitter.MousePositionY = e.Y;
             }
-
-
         }
 
-        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
-        {
-            if (e.Delta > 0)
-            {
-                pointCounter.Diametr += 10;
-            }
-            else if (pointCounter.Diametr != 0)
-            {
-                pointCounter.Diametr -= 10;
-            }
-        }
-
+        //Обработка события изменения положения кругов по оси X
         private void TbPointX_Scroll(object sender, EventArgs e)
         {
             pointRed.X = tbPointX.Value;
@@ -255,7 +244,7 @@ namespace lab6
             pointNavyBlue.X = tbPointX.Value;
             pointPurple.X = tbPointX.Value;
         }
-
+        //Обработка события изменения положения кругов по оси Y
         private void TbPointY_Scroll(object sender, EventArgs e)
         {
             pointRed.Y = tbPointY.Value;
@@ -266,21 +255,14 @@ namespace lab6
             pointNavyBlue.Y = tbPointY.Value;
             pointPurple.Y = tbPointY.Value;
         }
-
+        //Обработка нажатия на кнопку «Сброс»
         private void BtnReset_Click(object sender, EventArgs e)
         {
             ResetImpactPoints();
             ResetColor();
-            ResetTrackbars();
-        }
-        private void ResetTrackbars()
-        {
-            // Устанавливаем начальное значение радиуса для трекбара tbPointRadius
-            tbPointRadius.Value = initialRadius;
 
-            // Устанавливаем начальное значение направления для трекбара tbDirection
-            tbDirection.Value = 90; // Например, снова устанавливаем направление в 90 градусов
         }
+        //Сброс координат точек перекрашивания
         private void ResetImpactPoints()
         {
             int centerX = picDisplay.Width / 2;
@@ -326,12 +308,17 @@ namespace lab6
                         break;
                 }
             }
+            // Обновляем координаты для точки снега
+            pointCounter.X = centerX;
+            pointCounter.Y = centerY;
 
+            // Восстанавливаем начальное направление снега
+            emitter.Direction = initialDirection;
             // Обновляем значения трекбаров
             tbPointX.Value = (int)pointRed.X;
             tbPointY.Value = (int)pointRed.Y;
         }
-
+        //Сброс цвета точек перекрашевания
         private void ResetColor()
         {
             pointRed.RepaintTo = Color.Red;
@@ -345,7 +332,7 @@ namespace lab6
             // Обновляем отображение
             picDisplay.Invalidate();
         }
-
+        //Обработка нажатия на кнопку смены палитры
         private void BtnSwitchPalette_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog = new ColorDialog();
@@ -365,7 +352,7 @@ namespace lab6
                 picDisplay.Invalidate();
             }
         }
-
+        //Обработка изменения радиуса точек перекрашивания
         private void tbPointRadius_Scroll(object sender, EventArgs e)
         {
             int radius = initialRadius - tbPointRadius.Value; // уменьшаем радиус
@@ -382,7 +369,7 @@ namespace lab6
             // Обновляем отображение
             picDisplay.Invalidate();
         }
-
+        //Обработка изменения направления эмиттера
         private void tbDirection_Scroll(object sender, EventArgs e)
         {
             emitter.Direction = tbDirection.Value;

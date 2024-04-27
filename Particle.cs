@@ -19,17 +19,18 @@ namespace lab6
 
         public static Random rand = new Random();
 
-        public Particle()
-        {
-            var direction = (double)rand.Next(360);
-            var speed = 1 + rand.Next(10);
+        /* public Particle()
+         {
+             var direction = (double)rand.Next(360);
+             var speed = 1 + rand.Next(10);
 
-            SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
-            SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
+             SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
+             SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
 
-            Radius = 2 + rand.Next(10);
-            Life = 20 + rand.Next(100);
-        }
+             Radius = 2 + rand.Next(10);
+             Life = 20 + rand.Next(100);
+         }*/
+        //Виртуальный метод, отрисовывающий частицу на графическом контексте g
         public virtual void Draw(Graphics g)
         {
             float k = Math.Min(1f, Life / 100);
@@ -48,6 +49,7 @@ namespace lab6
         public Color ToColor;
         public bool IsInCounterPoint = false;
 
+        //Создания плавного перехода цвета частицы от FromColor к ToColor
         public static Color MixColor(Color color1, Color color2, float k)
         {
             return Color.FromArgb((int)(color2.A * k + color1.A * (1 - k)),
@@ -55,7 +57,7 @@ namespace lab6
                                   (int)(color2.G * k + color1.G * (1 - k)),
                                   (int)(color2.B * k + color1.B * (1 - k)));
         }
-
+        //Переопределенный метод, отрисовывающий частицу на графическом контексте g
         public override void Draw(Graphics g)
         {
             float k = Math.Min(1f, Life / 100);

@@ -31,6 +31,7 @@ namespace lab6
         public Color ColorTo = Color.FromArgb(0, Color.Black);
         public CounterPoint Counter;
 
+        //Метод для сброса параметров частицы перед ее повторным использованием
         public virtual void ResetParticle(Particle particle)
         {
             particle.Life = Particle.rand.Next(LifeMin, LifeMax);
@@ -54,6 +55,7 @@ namespace lab6
             particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
             Counter.ImpactParticle(particle);
         }
+        //Виртуальный метод для создания новой частицы
         public virtual Particle CreateParticle()
         {
             var particle = new ParticleColorful();
@@ -62,6 +64,7 @@ namespace lab6
 
             return particle;
         }
+        //Метод для обновления состояния эмиттера и его частиц
         public void UpdateState()
         {
             Counter.Counter = 0;
@@ -105,7 +108,7 @@ namespace lab6
                 particles.Add(particle);
             }
         }
-
+        //Метод для отрисовки всех частиц и точек воздействия эмиттера на графическом объекте g
         public void Render(Graphics g)
         {
             foreach (var particle in particles)
@@ -116,22 +119,6 @@ namespace lab6
             {
                 point.Render(g);
             }
-        }
-    }
-
-    public class TopEmitter : Emitter
-    {
-        public int Width;
-        public override void ResetParticle(Particle particle)
-        {
-            base.ResetParticle(particle); // вызываем базовый сброс частицы, там жизнь переопределяется и все такое
-
-            // а теперь тут уже подкручиваем параметры движения
-            particle.X = Particle.rand.Next(Width); // позиция X -- произвольная точка от 0 до Width
-            particle.Y = 0;  // ноль -- это верх экрана 
-
-            particle.SpeedY = 1; // падаем вниз по умолчанию
-            particle.SpeedX = Particle.rand.Next(-2, 2);
         }
     }
 }
