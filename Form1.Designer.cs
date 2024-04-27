@@ -37,16 +37,20 @@
             this.BtnReset = new System.Windows.Forms.Button();
             this.BtnSwitchPalette = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.tbPointRadius = new System.Windows.Forms.TrackBar();
+            this.tbDirection = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointY)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbPointRadius)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).BeginInit();
             this.SuspendLayout();
             // 
             // picDisplay
             // 
             this.picDisplay.Location = new System.Drawing.Point(3, 2);
             this.picDisplay.Name = "picDisplay";
-            this.picDisplay.Size = new System.Drawing.Size(798, 360);
+            this.picDisplay.Size = new System.Drawing.Size(794, 360);
             this.picDisplay.TabIndex = 0;
             this.picDisplay.TabStop = false;
             this.picDisplay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picDisplay_MouseMove);
@@ -75,7 +79,7 @@
             // 
             // TbPointY
             // 
-            this.TbPointY.Location = new System.Drawing.Point(182, 368);
+            this.TbPointY.Location = new System.Drawing.Point(178, 368);
             this.TbPointY.Name = "TbPointY";
             this.TbPointY.Size = new System.Drawing.Size(104, 45);
             this.TbPointY.TabIndex = 4;
@@ -101,11 +105,29 @@
             this.BtnSwitchPalette.UseVisualStyleBackColor = true;
             this.BtnSwitchPalette.Click += new System.EventHandler(this.BtnSwitchPalette_Click);
             // 
+            // tbPointRadius
+            // 
+            this.tbPointRadius.Location = new System.Drawing.Point(496, 376);
+            this.tbPointRadius.Name = "tbPointRadius";
+            this.tbPointRadius.Size = new System.Drawing.Size(104, 45);
+            this.tbPointRadius.TabIndex = 7;
+            this.tbPointRadius.Scroll += new System.EventHandler(this.tbPointRadius_Scroll);
+            // 
+            // tbDirection
+            // 
+            this.tbDirection.Location = new System.Drawing.Point(655, 376);
+            this.tbDirection.Name = "tbDirection";
+            this.tbDirection.Size = new System.Drawing.Size(104, 45);
+            this.tbDirection.TabIndex = 8;
+            this.tbDirection.Scroll += new System.EventHandler(this.tbDirection_Scroll);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 433);
+            this.Controls.Add(this.tbDirection);
+            this.Controls.Add(this.tbPointRadius);
             this.Controls.Add(this.BtnSwitchPalette);
             this.Controls.Add(this.BtnReset);
             this.Controls.Add(this.TbPointY);
@@ -117,6 +139,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointY)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbPointRadius)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbDirection)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,6 +156,8 @@
         private System.Windows.Forms.Button BtnReset;
         private System.Windows.Forms.Button BtnSwitchPalette;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.TrackBar tbPointRadius;
+        private System.Windows.Forms.TrackBar tbDirection;
     }
 }
 

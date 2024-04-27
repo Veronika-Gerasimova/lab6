@@ -25,18 +25,18 @@ namespace lab6
         CounterPoint pointCounter;
         TrackBar tbPointX;
         TrackBar tbPointY;
-
+        private int initialRadius = 75;
         public Form1()
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
-           /*emitter = new TopEmitter
-            {
-                Width = picDisplay.Width,
-                GravitationY = 0.25f
-            };*/
+            /*emitter = new TopEmitter
+             {
+                 Width = picDisplay.Width,
+                 GravitationY = 0.25f
+             };*/
 
             int centerX = picDisplay.Width / 2;
             int centerY = picDisplay.Height / 2;
@@ -179,17 +179,34 @@ namespace lab6
             tbPointX.Scroll += TbPointX_Scroll;
             tbPointY.Scroll += TbPointY_Scroll;
    
+            BtnSwitchPalette.Click += BtnSwitchPalette_Click;
 
-            // Добавляем кнопку для переключения палитры
-           /* Button BtnSwitchPalette = new Button
+
+            TrackBar tbPointRadius = new TrackBar
             {
                 Parent = this,
-                Text = "Переключить палитру",
-                Width = 120,
-                Left = 10,
-                Top = 90
-            };*/
-            BtnSwitchPalette.Click += BtnSwitchPalette_Click;
+                Width = 100,
+                Minimum = 10, // Минимальное значение радиуса
+                Maximum = initialRadius, // устанавливаем максимальное значение равное начальному размеру кругов
+                Value = initialRadius, // начальное значение радиуса
+                Left = 200,
+                Top = 50
+            };
+
+            tbPointRadius.Scroll += tbPointRadius_Scroll;
+
+            TrackBar tbDirection = new TrackBar
+            {
+                Parent = this,
+                Width = 100,
+                Minimum = 0,
+                Maximum = 360, // Устанавливаем максимальное значение для угла направления
+                Value = 90, // Начальное значение угла направления
+                Left = 200,
+                Top = 100
+            };
+
+            tbDirection.Scroll += tbDirection_Scroll;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -254,8 +271,16 @@ namespace lab6
         {
             ResetImpactPoints();
             ResetColor();
+            ResetTrackbars();
         }
+        private void ResetTrackbars()
+        {
+            // Устанавливаем начальное значение радиуса для трекбара tbPointRadius
+            tbPointRadius.Value = initialRadius;
 
+            // Устанавливаем начальное значение направления для трекбара tbDirection
+            tbDirection.Value = 90; // Например, снова устанавливаем направление в 90 градусов
+        }
         private void ResetImpactPoints()
         {
             int centerX = picDisplay.Width / 2;
@@ -341,6 +366,27 @@ namespace lab6
             }
         }
 
+        private void tbPointRadius_Scroll(object sender, EventArgs e)
+        {
+            int radius = initialRadius - tbPointRadius.Value; // уменьшаем радиус
+
+            // Обновляем радиус для всех точек перекрашивания
+            pointRed.Diametr = radius;
+            pointOrange.Diametr = radius;
+            pointYellow.Diametr = radius;
+            pointGreen.Diametr = radius;
+            pointBlue.Diametr = radius;
+            pointNavyBlue.Diametr = radius;
+            pointPurple.Diametr = radius;
+
+            // Обновляем отображение
+            picDisplay.Invalidate();
+        }
+
+        private void tbDirection_Scroll(object sender, EventArgs e)
+        {
+            emitter.Direction = tbDirection.Value;
+        }
     }
 }
 
