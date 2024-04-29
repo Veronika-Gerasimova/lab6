@@ -32,8 +32,10 @@ namespace lab6
         {
             InitializeComponent();
             picDisplay.Image = new Bitmap(picDisplay.Width, picDisplay.Height);
-            
+            picDisplay.MouseWheel += picDisplay_MouseWheel;
+
             this.initialDirection = 90;
+            
             /*emitter = new TopEmitter
              {
                  Width = picDisplay.Width,
@@ -118,17 +120,14 @@ namespace lab6
                         break;
                 }
             }
-            // Создаем экземпляр CounterPoint
+ 
             pointCounter = new CounterPoint
             {
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
                 Diametr = 100
             };
-
-            // Добавляем pointCounter в список точек воздействия эмиттера
             
-
             this.emitter = new Emitter
             {
                 Direction = 90,
@@ -232,7 +231,13 @@ namespace lab6
                 emitter.MousePositionY = e.Y;
             }
         }
-
+        // Обработка колесика мыши для изменения местоположения круга-счетчика
+        private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
+        {
+            pointCounter.X = e.X;
+            pointCounter.Y = e.Y;
+            picDisplay.Invalidate();
+        }
         //Обработка события изменения положения кругов по оси X
         private void TbPointX_Scroll(object sender, EventArgs e)
         {
