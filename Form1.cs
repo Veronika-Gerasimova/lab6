@@ -26,7 +26,7 @@ namespace lab6
         TrackBar tbPointX;
         TrackBar tbPointY;
         private int initialRadius = 75;
-        private int initialDirection = 90;
+        private int initialDirection = 90; //движение частицы вверх
 
         public Form1()
         {
@@ -44,13 +44,15 @@ namespace lab6
 
             int centerX = picDisplay.Width / 2;
             int centerY = picDisplay.Height / 2;
-            int radius = Math.Min(picDisplay.Width, picDisplay.Height) / 3;
+            int radius = Math.Min(picDisplay.Width, picDisplay.Height) / 3; //минимальное значение между шириной и высотой элемента управления, делится на 3
+                                                                            //для определения радиуса окружности, которая будет использоваться для расположения
+                                                                            //точек вокруг центральной точки
             int pointsCount = 7;
 
             for (int i = 0; i < pointsCount; i++)
             {
-                double angle = 2 * Math.PI * i / pointsCount;
-                int x = (int)(centerX + radius * Math.Cos(angle));
+                double angle = 2 * Math.PI * i / pointsCount;  //угол для текущей точки на окружности. Угол вычисляется так, чтобы точки были равномерно распределены по окружности
+                int x = (int)(centerX + radius * Math.Cos(angle)); //вычисляет координату X для текущей точки на окружности
                 int y = (int)(centerY + radius * Math.Sin(angle));
 
                 switch (i)
@@ -130,16 +132,16 @@ namespace lab6
             
             this.emitter = new Emitter
             {
-                Direction = 90,
-                Spreading = 100,
+                Direction = 90, //начальное направление частиц
+                Spreading = 100, //угол рассеивания частиц относительно начального направления
                 SpeedMin = 12,
                 SpeedMax = 12,
-                ColorFrom = Color.White,
-                ColorTo = Color.FromArgb(0, Color.Black),
-                ParticlesPerTick = 20,
-                X = picDisplay.Width / 2,
+                ColorFrom = Color.White, //начальный цвет частиц
+                ColorTo = Color.FromArgb(0, Color.Black), //конечный цвет частиц
+                ParticlesPerTick = 20, //количество частиц, выпускаемых за один tick
+                X = picDisplay.Width / 2, 
                 Y = picDisplay.Height * 2 / 7,
-                Counter = pointCounter
+                Counter = pointCounter //для подсчета частиц
             };
 
             emitters.Add(this.emitter);
@@ -222,7 +224,7 @@ namespace lab6
 
             picDisplay.Invalidate();
         }
-        //Обработка движения мыши по PictureBox
+        //Обработка движения мыши 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             foreach (var emitter in emitters)
