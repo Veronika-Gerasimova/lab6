@@ -67,6 +67,7 @@ namespace lab6
         public Color RepaintTo { get; set; }
 
         public int Diametr = 75; //диаметр точки перекрашивания
+
         public override void ImpactParticle(Particle particle) //определяет, как точка воздействует на частицу
         {
             var gX = X - particle.X;
@@ -82,7 +83,7 @@ namespace lab6
                 }
             }
         }
-        //определяет, как точка должна быть отрисована на графике
+        //определяет, как точка перекрашивания должна быть отрисована на графике
         public override void Render(Graphics graphics)
         {
             graphics.DrawEllipse(new Pen(RepaintTo), X - Diametr / 2, Y - Diametr / 2, Diametr, Diametr);

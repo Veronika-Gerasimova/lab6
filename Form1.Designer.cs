@@ -39,6 +39,10 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.tbPointRadius = new System.Windows.Forms.TrackBar();
             this.tbDirection = new System.Windows.Forms.TrackBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TbPointY)).BeginInit();
@@ -72,6 +76,7 @@
             // TbPointX
             // 
             this.TbPointX.Location = new System.Drawing.Point(12, 368);
+            this.TbPointX.Maximum = 50;
             this.TbPointX.Name = "TbPointX";
             this.TbPointX.Size = new System.Drawing.Size(104, 45);
             this.TbPointX.TabIndex = 3;
@@ -80,6 +85,7 @@
             // TbPointY
             // 
             this.TbPointY.Location = new System.Drawing.Point(178, 368);
+            this.TbPointY.Maximum = 50;
             this.TbPointY.Name = "TbPointY";
             this.TbPointY.Size = new System.Drawing.Size(104, 45);
             this.TbPointY.TabIndex = 4;
@@ -107,7 +113,7 @@
             // 
             // tbPointRadius
             // 
-            this.tbPointRadius.Location = new System.Drawing.Point(496, 376);
+            this.tbPointRadius.Location = new System.Drawing.Point(496, 368);
             this.tbPointRadius.Name = "tbPointRadius";
             this.tbPointRadius.Size = new System.Drawing.Size(104, 45);
             this.tbPointRadius.TabIndex = 7;
@@ -115,17 +121,58 @@
             // 
             // tbDirection
             // 
-            this.tbDirection.Location = new System.Drawing.Point(655, 376);
+            this.tbDirection.Location = new System.Drawing.Point(659, 368);
+            this.tbDirection.Maximum = 359;
             this.tbDirection.Name = "tbDirection";
             this.tbDirection.Size = new System.Drawing.Size(104, 45);
             this.tbDirection.TabIndex = 8;
             this.tbDirection.Scroll += new System.EventHandler(this.tbDirection_Scroll);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 411);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(126, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Перемещение по оси Y";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(175, 411);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(126, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Перемещение по оси Х";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(493, 408);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(115, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Изменение радиусов";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(626, 408);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(171, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Изменение направления частиц";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 433);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tbDirection);
             this.Controls.Add(this.tbPointRadius);
             this.Controls.Add(this.BtnSwitchPalette);
@@ -158,6 +205,10 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.TrackBar tbPointRadius;
         private System.Windows.Forms.TrackBar tbDirection;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 

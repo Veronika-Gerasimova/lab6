@@ -10,12 +10,12 @@ namespace lab6
     public class Emitter
     {
         List<Particle> particles = new List<Particle>(); //список частиц, которые создает и управляет эмиттер
-        public int MousePositionX; 
+        public int MousePositionX;
         public int MousePositionY;
         public List<IImpactPoint> impactPoints = new List<IImpactPoint>();  //список точек(кругов), которые могут повлиять на поведение частиц
-        public float GravitationX = 0;
+        public float GravitationX = 0; //гравитационное ускорение по оси X. Ее значение добавляется к текущей скорости частицы по оси X (particle.SpeedX) в каждой итерации обновления состояния частиц
         public float GravitationY = 1;
-        public int ParticlesCount = 500;
+      
         public int X;
         public int Y;
         public int Direction = 0; // вектор направления в градусах куда сыпет эмиттер
@@ -24,12 +24,14 @@ namespace lab6
         public int SpeedMax = 10;
         public int RadiusMin = 2; //Частицы будут иметь случайный радиус в диапазоне от RadiusMin до RadiusMax.
         public int RadiusMax = 10;
-        public int LifeMin = 50;  //Частица исчезнет через случайное количество кадров
+        public int LifeMin = 50;  //Частица исчезнет через случайное количество тиков
         public int LifeMax = 100;
-        public int ParticlesPerTick = 1; //Количество частиц, создаваемых за один кадр. 
+        public int ParticlesPerTick = 20;
         public Color ColorFrom = Color.White;  //Используется для создания эффекта плавного перехода цвета у частицы.
         public Color ColorTo = Color.FromArgb(0, Color.Black);
         public CounterPoint Counter;
+
+        public event EventHandler ParticleCreated;
 
         //Метод для сброса параметров частицы перед ее повторным использованием
         public virtual void ResetParticle(Particle particle)
@@ -39,7 +41,7 @@ namespace lab6
             particle.X = X;
             particle.Y = Y;
 
-            var direction = Direction + (double)Particle.rand.Next(Spreading) - Spreading / 2; //Вычисляет случайное направление движения частицы
+            var direction = Direction + (double)Particle.rand.Next(Spreading) - Spreading / 2;
 
             if (particle is ParticleColorful particleColorful)
             {
@@ -49,21 +51,33 @@ namespace lab6
 
             var speed = Particle.rand.Next(SpeedMin, SpeedMax);
 
-            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed); //Устанавливают компоненты скорости частицы по осям X и Y на основе направления direction и скорости speed.
+            particle.SpeedX = (float)(Math.Cos(direction / 180 * Math.PI) * speed);
             particle.SpeedY = -(float)(Math.Sin(direction / 180 * Math.PI) * speed);
 
-            particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax); //Устанавливает радиус частицы
-            Counter.ImpactParticle(particle); //для обработки взаимодействия частицы с объектом счётчика
+            particle.Radius = Particle.rand.Next(RadiusMin, RadiusMax);
+
+            foreach (var point in impactPoints)
+            {
+                point.ImpactParticle(particle);
+            }
         }
+
         //Виртуальный метод для создания новой частицы
         public virtual Particle CreateParticle()
         {
             var particle = new ParticleColorful();
             particle.FromColor = ColorFrom;
             particle.ToColor = ColorTo;
+            OnParticleCreated();
 
             return particle;
+
         }
+        protected virtual void OnParticleCreated()
+        {
+            ParticleCreated?.Invoke(this, EventArgs.Empty);
+        }
+
         //Метод для обновления логики эмиттера и его частиц
         public void UpdateState()
         {
@@ -74,7 +88,7 @@ namespace lab6
             {
                 if (particle is ParticleColorful particleColorful)
                 {
-                    particleColorful.IsInCounterPoint = false;
+                    particleColorful.IsInCounterPoint = false; //не находится в точке счетчика
                 }
                 if (particle.Life <= 0)
                 {
@@ -107,11 +121,12 @@ namespace lab6
                 ResetParticle(particle);
                 particles.Add(particle);
             }
+            particles.RemoveAll(p => p.Life <= 0);
         }
         //Метод для отрисовки всех частиц и точек воздействия эмиттера на графическом объекте g
         public void Render(Graphics g)
         {
-            foreach (var particle in particles) 
+            foreach (var particle in particles)
             {
                 particle.Draw(g); //для каждой частицы вызывается метод для отрисовки частицы
             }

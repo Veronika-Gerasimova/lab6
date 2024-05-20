@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,7 +28,8 @@ namespace lab6
         TrackBar tbPointY;
         private int initialRadius = 75;
         private int initialDirection = 90; //движение частицы вверх
-
+        private int totalParticles;
+        private int particlesCreatedThisTick = 0;
         public Form1()
         {
             InitializeComponent();
@@ -35,12 +37,6 @@ namespace lab6
             picDisplay.MouseWheel += picDisplay_MouseWheel;
 
             this.initialDirection = 90;
-            
-            /*emitter = new TopEmitter
-             {
-                 Width = picDisplay.Width,
-                 GravitationY = 0.25f
-             };*/
 
             int centerX = picDisplay.Width / 2;
             int centerY = picDisplay.Height / 2;
@@ -62,7 +58,7 @@ namespace lab6
                         {
                             X = x,
                             Y = y,
-                            RepaintTo = Color.Red,
+                            RepaintTo = Color.Red, // цвет, в который будет перекрашиваться частица
                             Diametr = 75
                         };
                         break;
@@ -122,14 +118,14 @@ namespace lab6
                         break;
                 }
             }
- 
+
             pointCounter = new CounterPoint
             {
                 X = picDisplay.Width / 2,
                 Y = picDisplay.Height / 2,
                 Diametr = 100
             };
-            
+
             this.emitter = new Emitter
             {
                 Direction = 90, //начальное направление частиц
@@ -139,7 +135,7 @@ namespace lab6
                 ColorFrom = Color.White, //начальный цвет частиц
                 ColorTo = Color.FromArgb(0, Color.Black), //конечный цвет частиц
                 ParticlesPerTick = 20, //количество частиц, выпускаемых за один tick
-                X = picDisplay.Width / 2, 
+                X = picDisplay.Width / 2,
                 Y = picDisplay.Height * 2 / 7,
                 Counter = pointCounter //для подсчета частиц
             };
@@ -155,7 +151,6 @@ namespace lab6
             emitter.impactPoints.Add(pointPurple);
             emitter.impactPoints.Add(pointCounter);
 
-
             // Создаем и добавляем трекбары для перемещения точек перекрашивания
             tbPointX = new TrackBar
             {
@@ -163,7 +158,7 @@ namespace lab6
                 Width = 100,
                 Minimum = 0,
                 Maximum = picDisplay.Width,
-                Value = (int)pointRed.X,
+               Value = 0,
                 Left = 10,
                 Top = 10
             };
@@ -174,14 +169,14 @@ namespace lab6
                 Width = 100,
                 Minimum = 0,
                 Maximum = picDisplay.Height,
-                Value = (int)pointRed.Y,
+                Value = 0,
                 Left = 10,
                 Top = 30
             };
 
             tbPointX.Scroll += TbPointX_Scroll;
             tbPointY.Scroll += TbPointY_Scroll;
-   
+
             BtnSwitchPalette.Click += BtnSwitchPalette_Click;
 
 
@@ -210,28 +205,28 @@ namespace lab6
             };
 
             tbDirection.Scroll += tbDirection_Scroll;
+
         }
         //Обновление состояния эмиттера и отрисовки частиц
         private void timer1_Tick(object sender, EventArgs e)
         {
-            emitter.UpdateState(); // тут теперь обновляем эмиттер
+            emitter.UpdateState();
 
-            using (var g = Graphics.FromImage(picDisplay.Image))
+            using (var g = Graphics.FromImage(picDisplay.Image)) //объект , который используется для рисования на изображении picDisplay.Image
             {
                 g.Clear(Color.Black);
-                emitter.Render(g); // а тут теперь рендерим через эмиттер
+                emitter.Render(g);
             }
 
             picDisplay.Invalidate();
         }
+
+
         //Обработка движения мыши 
         private void picDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            foreach (var emitter in emitters)
-            {
-                emitter.MousePositionX = e.X;
-                emitter.MousePositionY = e.Y;
-            }
+            emitter.MousePositionX = e.X;
+            emitter.MousePositionY = e.Y;  
         }
         // Обработка колесика мыши для изменения местоположения круга-счетчика
         private void picDisplay_MouseWheel(object sender, MouseEventArgs e)
@@ -250,6 +245,7 @@ namespace lab6
             pointBlue.X = tbPointX.Value;
             pointNavyBlue.X = tbPointX.Value;
             pointPurple.X = tbPointX.Value;
+            picDisplay.Invalidate();
         }
         //Обработка события изменения положения кругов по оси Y
         private void TbPointY_Scroll(object sender, EventArgs e)
@@ -261,6 +257,7 @@ namespace lab6
             pointBlue.Y = tbPointY.Value;
             pointNavyBlue.Y = tbPointY.Value;
             pointPurple.Y = tbPointY.Value;
+            picDisplay.Invalidate();
         }
         //Обработка нажатия на кнопку «Сброс»
         private void BtnReset_Click(object sender, EventArgs e)
@@ -383,4 +380,3 @@ namespace lab6
         }
     }
 }
-

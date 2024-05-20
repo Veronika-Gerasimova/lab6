@@ -22,8 +22,8 @@ namespace lab6
         //Виртуальный метод, отрисовывающий частицу на графическом контексте g
         public virtual void Draw(Graphics g)
         {
-            float k = Math.Min(1f, Life / 100);
-            int alpha = (int)(k * 255);
+            float k = Math.Min(1f, Life / 100); //используется для изменения прозрачности частицы в зависимости от её оставшейся жизни
+            int alpha = (int)(k * 255); //значение прозрачности
             var color = Color.FromArgb(alpha, Color.Black);
             var b = new SolidBrush(color); //для отрисовки частицы
 
@@ -41,7 +41,9 @@ namespace lab6
         //Создания плавного перехода цвета частицы от FromColor к ToColor
         public static Color MixColor(Color color1, Color color2, float k)
         {
-            return Color.FromArgb((int)(color2.A * k + color1.A * (1 - k)),
+            return Color.FromArgb((int)(color2.A * k + color1.A * (1 - k)), // создает цвет, который является смесью двух цветов color1 и color2,
+                                                                            // с использованием коэффициента k. Когда k равен 0, возвращается color1,
+                                                                            // а когда k равен 1 — color2
                                   (int)(color2.R * k + color1.R * (1 - k)),
                                   (int)(color2.G * k + color1.G * (1 - k)),
                                   (int)(color2.B * k + color1.B * (1 - k)));
@@ -52,8 +54,7 @@ namespace lab6
             float k = Math.Min(1f, Life / 100);
 
             var color = MixColor(ToColor, FromColor, k);
-            var b = new SolidBrush(IsInCounterPoint ? Color.Salmon : color); //метод представляет конструктор класса SolidBrush,
-                                                                             //который создает объект SolidBrush с указанным цветом
+            var b = new SolidBrush(IsInCounterPoint ? Color.Salmon : color); //Если IsInCounterPoint равно true, цвет устанавливается в Color.Salmon, иначе используется смешанный цвет
 
             g.FillEllipse(b, X - Radius, Y - Radius, Radius * 2, Radius * 2);
 
